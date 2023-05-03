@@ -13,53 +13,47 @@
  */
 listint_t **_ra(listint_t **list, size_t size, listint_t *new)
 {
-	listint_t **new_list;
+	listint_t **newlist;
 	size_t i;
 
-	new_list = malloc(size * sizeof(listint_t *));
-	if (new_list == NULL)
+	newlist = malloc(size * sizeof(listint_t *));
+	if (newlist == NULL)
 	{
 		free(list);
 		exit(98);
 	}
 	for (i = 0; i < size - 1; i++)
-		new_list[i] = list[i];
-	new_list[i] = new;
+		newlist[i] = list[i];
+	newlist[i] = new;
 	free(list);
-	return (new_list);
+	return (newlist);
 }
 
-/**
- * free_listint_safe - frees a listint_t linked list.
- * @head: double pointer to the start of the list
- *
- * Return: the numberber of nodes in the list
- */
 size_t free_listint_safe(listint_t **head)
 {
-	size_t i, number = 0;
+	size_t i, num = 0;
 	listint_t **list = NULL;
-	listint_t *next_ind;
+	listint_t *next;
 
 	if (head == NULL || *head == NULL)
-		return (number);
+		return (num);
 	while (*head != NULL)
 	{
-		for (i = 0; i < number; i++)
+		for (i = 0; i < num; i++)
 		{
 			if (*head == list[i])
 			{
 				*head = NULL;
 				free(list);
-				return (number);
+				return (num);
 			}
 		}
-		number++;
-		list = _ra(list, number, *head);
-		next_ind = (*head)->next_ind;
+		num++;
+		list = _ra(list, num, *head);
+		next = (*head)->next;
 		free(*head);
-		*head = next_ind;
+		*head = next;
 	}
 	free(list);
-	return (number);
+	return (num);
 }
